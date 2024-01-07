@@ -8,6 +8,7 @@
 
 ### Apply the services
 `kubectl apply -f elasticsearch-service.yaml`
+
 `kubectl apply -f kibana-service.yaml`
 
 ### Apply backup policy
