@@ -1,0 +1,34 @@
+# elasticsearch-backup-policy.yaml
+
+apiVersion: elasticsearch.k8s.elastic.co/v1 # Specifying the API version for the CRD
+kind: Elasticsearch # Declares the kind of service that is defined
+metadata:
+  name: elasticsearch # Set the name of the cluster
+spec:
+  version: 7.10.2
+  nodeSets:
+    - name: default
+      count: 3
+      volumeClaimTemplates: # Specifying a template for persistent volume chains
+        - metadata:
+            name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            storageClassName: BackupElasticSearch
+            resources:
+              requests:
+                storage: 5Gi
+  snapshot: # Define repo to store snapshots
+    repositories:
+      - name: default
+        fs:
+          location: C:\elasticsearch\snapshots
+    scheduledSnapshots:
+      - cron: "0 0 * * *" # Schedule daily backups at midnight
+        name: "daily-snapshot" # Name for the snapshot job
+        snapshot:
+          indices: "*" # Include all indices
+          ignoreUnavailable: true # The snapshot will proceed, and any unavailable indices will be skipped without causing the entire snapshot process to fail
+
+# kubectl apply -f elasticsearch-backup-policy.yaml

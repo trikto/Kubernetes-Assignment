@@ -1,0 +1,16 @@
+# kibana-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+spec:
+  selector:
+    app: kibana # Determining which pod the service will route the traffic to
+  ports:
+    - protocol: TCP
+      port: 5601 # Service listening port
+      targetPort: 5601 # Pod port
+  type: LoadBalancer # Provisioning a load balancer from the cloud provider to distribute external traffic to the service
+
+# kubectl apply -f kibana-service.yaml

@@ -1,0 +1,29 @@
+# elasticsearch/values.yaml
+
+# Configurations
+image:
+  repository: docker.elastic.co/elasticsearch/elasticsearch # Defining the docker image repo
+  tag: 7.10.2 # Specifying the tag of the image
+  pullPolicy: IfNotPresent # Pull the image only if it's not present locally
+
+replicas: 3 # Set the number of replicas to 3
+
+resources: # Allocating resources
+  requests:
+    cpu: "100m" # 100 milliCPU for each pod
+    memory: "1Gi" # 1 GB memory for each pod
+
+service:
+  name: elasticsearch # Defining the name
+  type: ClusterIP # Specifying the service type as ClusterIP, which means that the service is only available within the cluster
+  port: 9200 # Defining the service port
+
+# Ensuring data persistence
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce # Ensures that only one Elasticsearch pod can read from and write to the associated persistent volume at any given time to prevent data inconsistencies during concurrent writes
+  size: 5Gi # Size of the persistent volume
+
+# Install Elasticsearch
+# helm install elasticsearch elasticsearch/

@@ -1,0 +1,25 @@
+# kibana/values.yaml
+
+# Configurations
+image:
+  repository: docker.elastic.co/kibana/kibana # Specifying the docker image repo
+  tag: 7.10.2 # Specifying the tag
+  pullPolicy: IfNotPresent # Pull the image only if it's not present locally
+
+# Allocating resources
+resources:
+  requests:
+    cpu: "100m" # Allocating 100 mCPU for each pod
+    memory: "1Gi" # Allocating 1GiB for each pod
+
+service:
+  name: kibana # Define the service name
+  type: LoadBalancer # Provisioning an external load balancer to route external traffic to the Kibana service
+  port: 5601 # Default port for accessing Kibana
+
+# Configuring the connection to Elasticsearch
+elasticsearch:
+  host: "elasticsearch"
+  port: 9200
+# Install Kibana
+# helm install kibana kibana/

@@ -1,0 +1,15 @@
+# elasticsearch-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+spec:
+  selector:
+    app: elasticsearch # Determining which pod the service will route the traffic to
+  ports:
+    - protocol: TCP
+      port: 9200 # Specifies the listening port for the service
+      targetPort: 9200 # Specifies the pod port to which the traffic will be forwarded
+
+# kubectl apply -f elasticsearch-service.yaml
